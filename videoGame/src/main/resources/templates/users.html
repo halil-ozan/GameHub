@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-dark text-white">
+
+<div class="container mt-5">
+    <!-- Giriş Yapan Kullanıcı Bilgisi -->
+    <div class="card bg-secondary text-white mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Logged in as:</h5>
+            <p class="card-text">
+                <strong>Name:</strong> <span th:text="${#authentication.principal.username}"></span> <br>
+                <strong>Email:</strong> <span th:text="${#authentication.name}"></span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Kullanıcı Listesi -->
+    <div class="card bg-dark text-white">
+        <div class="card-header text-center">
+            <h2>User List</h2>
+        </div>
+        <div class="card-body">
+            <table class="table table-dark table-hover">
+                <thead class="table-secondary text-dark">
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(users)}">
+                    <td colspan="3" class="text-center">No users found.</td>
+                </tr>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.first_name}"></td>
+                    <td th:text="${user.last_name}"></td>
+                    <td th:text="${user.email}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
