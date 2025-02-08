@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameHub | Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .navbar {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: transparent;
+        }
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+        }
+        .navbar .menu {
+            margin-left: 50px;
+            display: flex;
+            gap: 20px;
+        }
+        .navbar .menu a {
+            font-size: 20px;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: normal;
+        }
+        .navbar .menu a:hover {
+            text-decoration: underline;
+        }
+        .navbar .user-info {
+            display: flex;
+            align-items: center;
+        }
+        .navbar .user-info span {
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        .navbar .profile-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: #ffffff;
+        }
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        .btn-primary {
+            background-color: #0066cc;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0052a3;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <div class="logo">
+        GameHub
+        <div class="menu">
+            <a href="#">Explore Games</a>
+            <a href="#">Tier Lists</a>
+            <a href="#">Community Chat</a>
+        </div>
+    </div>
+    <div class="user-info">
+        <span th:text="${session.user.firstName}"></span>
+        <form action="#" th:action="@{/logout}" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-link logout-btn" style="color: white; text-decoration: none; font-weight: bold;">Logout</button>
+        </form>
+        <div class="profile-icon"></div>
+    </div>
+</div>
+<div>
+    <h1>Welcome to GameHub</h1>
+    <p>Coming Soon...</p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
