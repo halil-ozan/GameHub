@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameHub | Home</title>
+    <title>GameHub | Profile</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -15,7 +15,6 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
         }
         .navbar {
@@ -35,6 +34,7 @@
             color: #ffffff;
             display: flex;
             align-items: center;
+            gap: 20px;
         }
         .navbar .menu {
             margin-left: 50px;
@@ -63,46 +63,55 @@
             height: 35px;
             border-radius: 50%;
             background-color: #ffffff;
+            margin-right: 15px;
         }
-        h1 {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 36px;
-            margin-bottom: 20px;
+        .profile-container {
+            display: flex;
+            align-items: center;
+            margin-top: 100px;
+            width: 50%;
         }
-        p {
-            font-size: 18px;
-            margin-bottom: 30px;
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            margin-right: 20px;
         }
-        .btn-primary {
-            background-color: #0066cc;
-            border: none;
+        .profile-info {
+            text-align: left;
         }
-        .btn-primary:hover {
-            background-color: #0052a3;
+        .profile-info h2 {
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
 <div class="navbar">
     <div class="logo">
-        GameHub
+        <a th:href="@{/home}" style="text-decoration: none; color: inherit;">GameHub</a>
         <div class="menu">
-            <a th:href="@{/games}">Explore Games</a>
+            <a href="#">Explore Games</a>
             <a href="#">Tier Lists</a>
             <a href="#">Community Chat</a>
         </div>
     </div>
     <div class="user-info">
         <span th:text="${session.user.firstName}"></span>
+        <div class="profile-icon"></div>
         <form action="#" th:action="@{/logout}" method="POST" style="display: inline;">
             <button type="submit" class="btn btn-link logout-btn" style="color: white; text-decoration: none; font-weight: bold;">Logout</button>
         </form>
-        <a th:href="@{/profile}" class="profile-icon"></a>
     </div>
 </div>
-<div>
-    <h1>Welcome to GameHub</h1>
-    <p>Coming Soon...</p>
+<div class="profile-container">
+    <div class="profile-image"></div>
+    <div class="profile-info">
+        <h2 th:text="${session.user.firstName} + ' ' + ${session.user.lastName}"></h2>
+        <div class="menu">
+            <a href="#">Favorite Games</a>
+        </div>
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

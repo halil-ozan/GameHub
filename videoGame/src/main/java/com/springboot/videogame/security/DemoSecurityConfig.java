@@ -35,6 +35,8 @@ public class DemoSecurityConfig {
         http.authorizeHttpRequests(configurer ->
                         configurer
                                 .requestMatchers("/").permitAll()
+                                .requestMatchers("/profile").hasRole("EMPLOYEE")
+                                .requestMatchers("/games").hasRole("EMPLOYEE")
                                 .requestMatchers("/home").hasRole("EMPLOYEE")
                                 .requestMatchers("/register/**").permitAll()
                                 .anyRequest().authenticated()

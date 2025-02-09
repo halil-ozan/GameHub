@@ -1,4 +1,4 @@
-package com.springboot.videogame.controller;
+package com.springboot.videogame.controller.Auth;
 
 import java.util.logging.Logger;
 
