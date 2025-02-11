@@ -88,6 +88,19 @@
             font-weight: bold;
         }
 
+        /* Yıldız Butonu Stili */
+        .favorite-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: gray;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .favorite-btn.active {
+            color: gold; /* Favoriye eklenen oyunlar için */
+        }
+
         /* Başlık Mesafesi */
         .title-container {
             margin-top: 120px; /* Navbar ile mesafeyi artırdım */
@@ -129,11 +142,48 @@
                 <div class="card-body">
                     <h5 class="card-title" th:text="${game.get('name')}"></h5>
                     <p class="card-text">⭐ Rating: <span th:text="${game.get('rating')}"></span></p>
+                    <!-- Favori Yıldızı Butonu -->
+                    <button class="favorite-btn" data-game-id="${game.get('id')}" onclick="toggleFavorite(this)">
+                        ★
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    // Yıldız butonunu tıkladığında favori işlemi
+    function toggleFavorite(button) {
+        const gameId = button.getAttribute("data-game-id");
+
+        if (button.classList.contains("active")) {
+            button.classList.remove("active");
+            removeFavorite(gameId);
+        } else {
+            button.classList.add("active");
+            addFavorite(gameId);
+        }
+    }
+
+    // Favoriye ekleme isteği
+    function addFavorite(gameId) {
+        fetch('/add-favorite', {
+            method: 'POST',
+            body: JSON.stringify({ gameId: gameId }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
+
+    // Favoriden çıkarma isteği
+    function removeFavorite(gameId) {
+        fetch('/remove-favorite', {
+            method: 'POST',
+            body: JSON.stringify({ gameId: gameId }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
