@@ -27,6 +27,9 @@ public class WebUser {
 	@Pattern(regexp="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
 	private String email;
 
+	// ID ekleme
+	private Integer id;
+
 	public WebUser() {
 
 	}
@@ -71,4 +74,11 @@ public class WebUser {
 		this.email = email;
 	}
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 }

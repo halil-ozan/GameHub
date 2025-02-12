@@ -18,12 +18,6 @@ public class DemoController {
         return "home";
     }
 
-    @GetMapping("/profile")
-    public String showProfile() {
-
-        return "profile";
-    }
-
 
 }
 

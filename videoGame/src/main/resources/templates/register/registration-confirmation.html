@@ -50,6 +50,7 @@
 	<div class="card">
 		<h2 class="text-center mb-4">User Registered Successfully!</h2>
 		<ul class="list-group list-group-flush text-start">
+			<li class="list-group-item bg-transparent text-white" th:text="'User id: ' + ${webUser.id}"></li>
 			<li class="list-group-item bg-transparent text-white" th:text="'User name: ' + ${webUser.userName}"></li>
 			<li class="list-group-item bg-transparent text-white" th:text="'First name: ' + ${webUser.firstName}"></li>
 			<li class="list-group-item bg-transparent text-white" th:text="'Last name: ' + ${webUser.lastName}"></li>

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public class UserDaoImpl implements UserDao {
 
@@ -15,6 +17,11 @@ public class UserDaoImpl implements UserDao {
 	@Autowired
 	public UserDaoImpl(EntityManager theEntityManager) {
 		this.entityManager = theEntityManager;
+	}
+
+	@Override
+	public User findById(int id) {
+		return entityManager.find(User.class, id);
 	}
 
 	@Override
@@ -33,6 +40,7 @@ public class UserDaoImpl implements UserDao {
 
 		return theUser;
 	}
+
 
 	@Override
 	@Transactional

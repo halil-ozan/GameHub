@@ -80,6 +80,9 @@ public class RegistrationController {
         
         logger.info("Successfully created user: " + userName);
 
+		Integer userId = theWebUser.getId();
+		logger.info("New user ID: " + userId);
+
 		// place user in the web http session for later use
 		session.setAttribute("user", theWebUser);
 

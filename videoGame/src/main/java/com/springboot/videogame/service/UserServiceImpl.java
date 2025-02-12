@@ -39,11 +39,13 @@ public class UserServiceImpl implements UserService {
 		return userDao.findByUserName(userName);
 	}
 
+
 	@Override
 	public void save(WebUser webUser) {
 		User user = new User();
 
 		// assign user details to the user object
+		user.setId(webUser.getId());
 		user.setUserName(webUser.getUserName());
 		user.setPassword(passwordEncoder.encode(webUser.getPassword()));
 		user.setFirstName(webUser.getFirstName());
@@ -57,6 +59,7 @@ public class UserServiceImpl implements UserService {
 		// save user in the database
 		userDao.save(user);
 	}
+
 
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
