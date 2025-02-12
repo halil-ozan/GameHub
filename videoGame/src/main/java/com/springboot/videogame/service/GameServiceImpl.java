@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -49,25 +50,44 @@ public class GameServiceImpl implements GameService {
     private void saveGameToDatabase(Map<String, Object> gameData) {
         try {
             Long id = ((Number) gameData.get("id")).longValue();
-            if (!gameRepository.existsById(id)) {
-                Game game = new Game();
+            Game game = gameRepository.findById(id).orElse(new Game());
+
+            // Eğer oyun zaten varsa güncelle
+            if (game.getId() != null) {
+                if(game.getGenre() == null) { // Sadece genre eksikse güncelle
+                    game.setGenre(extractGenres(gameData));
+                }
+            }
+            // Yeni oyun oluştur
+            else {
                 game.setId(id);
                 game.setName((String) gameData.get("name"));
-
-
                 game.setBackgroundImage((String) gameData.get("background_image"));
 
-                // Handle rating
+                // Rating işleme
                 Object rating = gameData.get("rating");
                 if (rating != null) {
                     game.setRating(((Number) rating).doubleValue());
                 }
 
-                gameRepository.save(game);
+                game.setGenre(extractGenres(gameData)); // Genre ekstraksiyonu
             }
+
+            gameRepository.save(game);
+
         } catch (Exception e) {
-            // Log error (e.g., using SLF4J)
             System.err.println("Error saving game: " + e.getMessage());
         }
+    }
+
+    // Genre listesini işleyen yardımcı metod
+    private String extractGenres(Map<String, Object> gameData) {
+        List<Map<String, Object>> genres = (List<Map<String, Object>>) gameData.get("genres");
+        if (genres == null || genres.isEmpty()) return "Unknown";
+
+        return genres.stream()
+                .map(genre -> (String) genre.get("name"))
+                .filter(name -> name != null)
+                .collect(Collectors.joining(", "));
     }
 }

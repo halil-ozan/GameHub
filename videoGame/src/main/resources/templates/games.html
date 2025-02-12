@@ -105,6 +105,32 @@
         .title-container {
             margin-top: 120px;
         }
+
+        .filter-container {
+            background-color: #2c2c2c;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 100px auto 30px;
+            max-width: 1200px;
+        }
+        .filter-title {
+            color: #0dcaf0;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        .genre-filter {
+            margin: 5px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .genre-filter.active {
+            background-color: #0dcaf0 !important;
+            color: #000 !important;
+            border-color: #0dcaf0;
+        }
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -133,15 +159,37 @@
     <h1 class="mb-4">Explore Games</h1>
 </div>
 
+<!-- Filtreleme Bölümü -->
+<div class="container filter-container">
+    <div class="row">
+        <div class="col-12">
+            <h4 class="filter-title">Filter by Genre</h4>
+            <div class="d-flex flex-wrap">
+                <button th:each="genre : ${allGenres}"
+                        type="button"
+                        class="btn btn-outline-info genre-filter"
+                        th:text="${genre}"
+                        th:data-genre="${genre}"
+                        onclick="toggleFilter(this)">
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Game Cards -->
 <div class="container">
     <div class="row">
-        <div class="col-md-4 mb-4" th:each="game : ${games}">
+        <div class="col-md-4 mb-4 game-card"
+             th:each="game : ${games}"
+             th:attr="data-genres=${#strings.listJoin(game.genres.?[name != null].![name], ',')}">
             <div class="card">
                 <img th:src="${game.get('background_image')}" class="card-img-top" alt="Game Image">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${game.get('name')}"></h5>
                     <p class="card-text">⭐ Rating: <span th:text="${game.get('rating')}"></span></p>
+                    <p class="card-text">🎮 Genre:
+                        <span th:text="${#strings.listJoin(game.genres.?[name != null].![name], ', ')}">Unknown</span>
+                    </p>
                     <!-- Favori Yıldızı Butonu -->
                     <button class="favorite-btn" data-game-id="${game.get('id')}" onclick="toggleFavorite(this)">
                         ★
@@ -181,6 +229,32 @@
             method: 'POST',
             body: JSON.stringify({ gameId: gameId }),
             headers: { 'Content-Type': 'application/json' }
+        });
+    }
+
+    // Filtreleme fonksiyonları
+    let selectedGenres = [];
+
+    function toggleFilter(button) {
+        const genre = button.getAttribute('data-genre');
+        button.classList.toggle('active');
+
+        if(selectedGenres.includes(genre)) {
+            selectedGenres = selectedGenres.filter(g => g !== genre);
+        } else {
+            selectedGenres.push(genre);
+        }
+
+        filterGames();
+    }
+
+    function filterGames() {
+        document.querySelectorAll('.game-card').forEach(card => {
+            const cardGenres = card.getAttribute('data-genres').split(',');
+            const shouldShow = selectedGenres.length === 0 ||
+                selectedGenres.some(genre => cardGenres.includes(genre));
+
+            card.classList.toggle('hidden', !shouldShow);
         });
     }
 </script>

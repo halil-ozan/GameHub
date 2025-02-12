@@ -14,6 +14,8 @@ public class Game {
     private String name;// Use appropriate date type
     private String backgroundImage;
     private Double rating;
+    private String genre;
+
 
     @ManyToMany(mappedBy = "favoriteGames")
     private Set<User> users = new HashSet<>();
@@ -21,11 +23,12 @@ public class Game {
     // Getters, setters, and default constructor
     public Game() {}
 
-    public Game(Long id, String name, String backgroundImage, Double rating) {
+    public Game(Long id, String name, String backgroundImage, Double rating, String genre) {
         this.id = id;
         this.name = name;
         this.backgroundImage = backgroundImage;
         this.rating = rating;
+        this.genre = genre;
     }
 
 // Additional constructors if needed
@@ -68,5 +71,13 @@ public class Game {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 }
