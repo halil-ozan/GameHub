@@ -190,10 +190,14 @@
                     <p class="card-text">🎮 Genre:
                         <span th:text="${#strings.listJoin(game.genres.?[name != null].![name], ', ')}">Unknown</span>
                     </p>
-                    <!-- Favori Yıldızı Butonu -->
-                    <button class="favorite-btn" data-game-id="${game.get('id')}" onclick="toggleFavorite(this)">
-                        ★
-                    </button>
+                    <!-- Add to Favorite Games Button -->
+                    <form th:action="@{/profile/add}" method="post">
+                        <input type="hidden" name="userId" th:value="${session.user.id}" />
+                        <input type="hidden" name="gameId" th:value="${game.id}" />
+                        <button class="btn btn-success">
+                            ➕ Add to Favorite Games
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
