@@ -15,6 +15,7 @@ public class Game {
     private String backgroundImage;
     private Double rating;
     private String genre;
+    private String description;
 
 
     @ManyToMany(mappedBy = "favoriteGames")
@@ -23,12 +24,13 @@ public class Game {
     // Getters, setters, and default constructor
     public Game() {}
 
-    public Game(Long id, String name, String backgroundImage, Double rating, String genre) {
+    public Game(Long id, String name, String backgroundImage, Double rating, String genre, String description) {
         this.id = id;
         this.name = name;
         this.backgroundImage = backgroundImage;
         this.rating = rating;
         this.genre = genre;
+        this.description = description;
     }
 
 // Additional constructors if needed
@@ -79,5 +81,13 @@ public class Game {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -47,6 +47,12 @@ public class GameServiceImpl implements GameService {
         return allGames;
     }
 
+    @Override
+    public Game findById(Long gameId) {
+        return gameRepository.findById(gameId)
+                .orElseThrow(() -> new RuntimeException("Game not found with ID: " + gameId));
+    }
+
     private void saveGameToDatabase(Map<String, Object> gameData) {
         try {
             Long id = ((Number) gameData.get("id")).longValue();

@@ -183,9 +183,12 @@
              th:each="game : ${games}"
              th:attr="data-genres=${#strings.listJoin(game.genres.?[name != null].![name], ',')}">
             <div class="card">
-                <img th:src="${game.get('background_image')}" class="card-img-top" alt="Game Image">
+                <a th:href="@{/game-detail/{gameId}(gameId=${game.id})}">
+                <img th:src="${game['background_image']}" class="card-img-top" alt="Game Image">
+                </a>
                 <div class="card-body">
                     <h5 class="card-title" th:text="${game.get('name')}"></h5>
+                    <p class="card-text">⭐ GameId: <span th:text="${game.get('id')}"></span></p>
                     <p class="card-text">⭐ Rating: <span th:text="${game.get('rating')}"></span></p>
                     <p class="card-text">🎮 Genre:
                         <span th:text="${#strings.listJoin(game.genres.?[name != null].![name], ', ')}">Unknown</span>
