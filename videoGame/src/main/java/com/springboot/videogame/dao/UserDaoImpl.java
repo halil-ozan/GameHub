@@ -46,7 +46,6 @@ public class UserDaoImpl implements UserDao {
 	@Transactional
 	public void save(User theUser) {
 
-		// create the user ... finally LOL
 		entityManager.merge(theUser);
 	}
 

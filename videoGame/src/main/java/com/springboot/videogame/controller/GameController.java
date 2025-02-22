@@ -44,7 +44,7 @@ public class GameController {
     @GetMapping("/game-detail/{gameId}")
     public String getGameDetail(@PathVariable Long gameId, Model model) {
         Game game = gameService.findById(gameId); // Fetch game by ID
-        .  model.addAttribute("game", game); // Send game data to Thymeleaf
+        model.addAttribute("game", game); // Send game data to Thymeleaf
         return "game-detail"; // Load Thymeleaf HTML page
     }
 }

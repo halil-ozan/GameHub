@@ -39,6 +39,7 @@ public class DemoSecurityConfig {
                                 .requestMatchers("/games").hasRole("EMPLOYEE")
                                 .requestMatchers("/home").hasRole("EMPLOYEE")
                                 .requestMatchers("/register/**").permitAll()
+                                .requestMatchers("/user-profile/**").hasRole("EMPLOYEE")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form ->
