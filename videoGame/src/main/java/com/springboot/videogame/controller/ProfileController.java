@@ -48,7 +48,6 @@ public class ProfileController {
     public String removeFavorite(@RequestParam Integer userId, @RequestParam Long gameId, RedirectAttributes redirectAttributes) {
         userFavoriteGameService.removeFavoriteGame(userId, gameId);
 
-        // Kullanıcıyı favoriler sayfasına yönlendir
         redirectAttributes.addFlashAttribute("message", "Game removed from favorites!");
         return "redirect:/profile";
     }
@@ -57,7 +56,6 @@ public class ProfileController {
     public String addFavoriteGame(@RequestParam Integer userId, @RequestParam Long gameId, RedirectAttributes redirectAttributes) {
         userFavoriteGameService.addFavoriteGame(userId, gameId);
 
-        // Kullanıcıyı favoriler sayfasına yönlendir
         redirectAttributes.addFlashAttribute("message", "Game added to favorites!");
         return "redirect:/profile";
     }

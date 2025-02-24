@@ -16,6 +16,7 @@ public class Game {
     private Double rating;
     private String genre;
     private String description;
+    private String comment;
 
 
     @ManyToMany(mappedBy = "favoriteGames")

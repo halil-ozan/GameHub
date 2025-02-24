@@ -195,14 +195,11 @@
 
 <!-- User Comments Section -->
 <div class="comment-section">
-    <h3>User Comments</h3>
-    <div class="comment">
-        <p class="comment-user">JohnDoe</p>
-        <p class="comment-text">This game is amazing! The graphics are stunning, and the gameplay is fantastic.</p>
-    </div>
-    <div class="comment">
-        <p class="comment-user">Gamer123</p>
-        <p class="comment-text">Loved it, but I think it could use more levels. Great story though!</p>
+        <h3>User Comments</h3>
+    <div th:each="comments : ${userComments}" class="comment">
+        <p class="comment-user" th:text="${comments.user.userName}">Username</p>
+        <p class="comment-text" th:text="${comments.commentText}">Comment text</p>
+        <p>Created At: <span th:text="${#temporals.format(comments.createdAt, 'HH:mm:ss (dd/MM/yyyy)')}"></span></p>
     </div>
 </div>
 
