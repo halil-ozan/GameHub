@@ -2,161 +2,75 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Games</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
         body {
             background-color: #1a1a1a;
             color: #ffffff;
         }
-
-        /* Navbar Styling */
         .navbar {
-            width: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: transparent;
+            padding: 15px 40px; /* Padding artırıldı */
+            background-color: #2c2c2c;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
         }
-        .navbar .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
-        .navbar .menu {
-            margin-left: 50px;
-            display: flex;
-            gap: 20px;
-        }
-        .navbar .menu a {
-            font-size: 20px;
+
+        .menu a {
             color: #ffffff;
             text-decoration: none;
-            font-weight: normal;
+            margin: 0 15px;
         }
-        .navbar .menu a:hover {
-            text-decoration: underline;
-        }
-        .navbar .user-info {
-            display: flex;
-            align-items: center;
-        }
-        .navbar .user-info span {
-            margin-right: 15px;
-            font-weight: bold;
-        }
-        .navbar .profile-icon {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background-color: #ffffff;
-        }
+
         .search-container {
-            flex: 0 1 400px;
-            margin: 0 30px;
+            flex: 1;
+            display: flex;
+            justify-content: center;
         }
 
         .dark-search {
-            background-color: #2c2c2c !important;
-            border: 1px solid #3a3a3a !important;
-            color: #ffffff !important;
-            transition: all 0.3s ease;
+            background-color: #3a3a3a;
+            color: white;
+            border: 1px solid #555;
         }
 
-        .dark-search:focus {
-            box-shadow: 0 0 0 0.25rem rgba(0, 170, 255, 0.25);
-            border-color: #00aaff !important;
+        .dark-search::placeholder {
+            color: #bbb;
         }
 
-        .btn-outline-success {
-            color: #00ff88;
-            border-color: #00ff88;
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Aradaki boşluk için */
+            white-space: nowrap; /* Metnin kaymasını engeller */
         }
 
-        .btn-outline-success:hover {
-            background-color: #00ff88;
-            border-color: #00ff88;
-            color: #1a1a1a;
+        .profile-icon {
+            width: 35px;
+            height: 35px;
+            background-color: white;
+            border-radius: 50%;
         }
-
-        .bi-search {
-            transition: transform 0.3s ease;
-        }
-
-        .btn-outline-success:hover .bi-search {
-            transform: scale(1.2);
-        }
-
-        /* Game Cards */
         .card {
             background-color: #2c2c2c;
             color: #ffffff;
-            border: none;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            overflow: hidden;
-            border-radius: 12px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
         }
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0px 0px 15px rgba(0, 170, 255, 0.5);
+            transform: scale(1.05);
         }
         .card img {
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-            height: 200px;
+            border-radius: 10px 10px 0 0;
+            height: 140px;
             object-fit: cover;
-        }
-        .card-body {
-            padding: 20px;
-        }
-        .card-title {
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .profile-container {
-            display: flex;
-            align-items: center;
-            margin-top: 100px;
-            width: 60%;
-            background-color: #2c2c2c;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
-        }
-
-        .profile-image {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 30px;
-            border: 4px solid #fff;
-        }
-
-        .profile-info {
-            text-align: left;
-            flex-grow: 1;
-        }
-
-        .profile-info h2 {
-            margin-bottom: 10px;
-        }
-
-        .bio {
-            font-size: 16px;
-            color: #bdbdbd;
-            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -164,14 +78,15 @@
 <!-- Navbar -->
 <div class="navbar">
     <div class="logo">
-        <a th:href="@{/home}">GameHub</a>
-        <div class="menu">
-            <a th:href="@{/games}">Explore Games</a>
-            <a href="#">Tier Lists</a>
-            <a href="#">Community Chat</a>
-        </div>
+        <a th:href="@{/home}" style="color: white; font-size: 24px; font-weight: bold; text-decoration: none;">GameHub</a>
     </div>
-    <!-- Navbar içindeki Arama Kutusu -->
+    <div class="menu">
+        <a th:href="@{/games}">Explore Games</a>
+        <a href="#">Tier Lists</a>
+        <a href="#">Community Chat</a>
+    </div>
+
+    <!-- Navbar Searchbar -->
     <div class="search-container">
         <form th:action="@{/profile/search}" method="get" class="d-flex">
             <div class="input-group">
@@ -189,42 +104,77 @@
             </div>
         </form>
     </div>
+
     <div class="user-info">
-        <span th:text="${session.user.firstName}"></span>
-        <div class="profile-icon"></div>
+        <span th:text="${session.user.firstName}" style="margin-right: 10px;"></span>
         <form action="#" th:action="@{/logout}" method="POST" style="display: inline;">
-            <button type="submit" class="btn btn-link logout-btn" style="color: white; text-decoration: none; font-weight: bold;">Logout</button>
+            <button type="submit" class="btn btn-link logout-btn" style="color: #ff2514; text-decoration: none; font-weight: bold; border: solid">Logout</button>
         </form>
+        <div class="profile-icon" style="width: 35px; height: 35px; background-color: white; border-radius: 50%;"></div>
     </div>
 </div>
 
-<!-- Profil Bilgileri -->
-<div class="profile-container" style="margin: 100px auto 0; justify-content: center;">
+<!-- Profile -->
+<div class="profile-container">
     <img class="profile-image">
     <div class="profile-info">
         <h2 th:text="${session.user.firstName} + ' ' + ${session.user.lastName}"></h2>
-        <p class="bio">I am a gamer! I love FPS and Souls games, my favourite games are CS:GO and Dark Souls series!</p>
+        <p class="bio">I love FPS and Souls games! My favorite games are CS:GO and Dark Souls series!</p>
     </div>
 </div>
 
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center">
-        <h1>Favorite Games</h1>
-        <a th:href="@{/games}" class="btn btn-success">
-            <span style="font-size: 20px;">➕</span> Add Favorite Game
-        </a>
-    </div>
+<style>
+    .profile-container {
+        display: flex;
+        align-items: center;
+        background: linear-gradient(135deg, #3a3a3a, #2c2c2c);
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+        width: 50%;
+        text-align: center;
+        margin: 120px auto 20px;
+        transition: transform 0.3s ease-in-out;
+    }
+    .profile-container:hover {
+        transform: scale(1.02);
+    }
+    .profile-image {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        border: 3px solid #ffcc00;
+        object-fit: cover;
+        margin-right: 20px;
+    }
+    .profile-info {
+        text-align: left;
+        color: white;
+    }
+    .profile-info h2 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .bio {
+        font-style: italic;
+        color: #ccc;
+    }
+</style>
+
+
+<!-- Favorite Games -->
+<div class="container mt-4">
+    <h3 class="mb-3">Favorite Games</h3>
     <div class="row">
-        <div class="col-md-4" th:each="game : ${favoriteGames}">
+        <div class="col-md-3 mb-3" th:each="game : ${favoriteGames}">
             <div class="card">
                 <a th:href="@{/game-detail/{gameId}(gameId=${game.id})}">
-                <img th:src="${game.backgroundImage}" class="card-img-top">
+                    <img th:src="${game.backgroundImage}" class="card-img-top">
                 </a>
-                <div class="card-body">
+                <div class="card-body text-center">
                     <h5 class="card-title" th:text="${game.name}"></h5>
-                    <p class="card-text">Rating: <span th:text="${game.rating}"></span></p>
-
-                    <!-- Remove from Favorites -->
+                    <p>Rating: <span th:text="${game.rating}"></span></p>
                     <form th:action="@{/profile/remove}" method="post">
                         <input type="hidden" name="userId" th:value="${session.user.id}" />
                         <input type="hidden" name="gameId" th:value="${game.id}" />
@@ -236,15 +186,54 @@
     </div>
 </div>
 
+<!-- Comments -->
+<div class="container comment-section">
+    <h3>User Comments</h3>
+    <div th:each="comments : ${userComments}" class="comment-box p-3 mb-3 rounded position-relative">
+        <small class="comment-time text-muted" th:text="${#temporals.format(comments.createdAt, 'HH:mm:ss (dd/MM/yyyy)')}"></small>
+        <div class="d-flex align-items-center">
+            <img th:src="${comments.game.backgroundImage}" alt="Game" class="comment-game-img">
+            <div class="ms-3">
+                <span class="fw-bold text-warning" th:text="${comments.game.getName()}"></span>
+                <p class="fw-semibold text-light small mb-1" th:text="${comments.user.getUserName()}"></p>
+                <p class="mb-1 text-light" th:text="${comments.commentText}"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .comment-section {
+        background-color: #2c2c2c;
+        padding: 20px;
+        border-radius: 12px;
+        margin-top: 20px;
+    }
+    .comment-box {
+        background-color: #3a3a3a;
+        border-left: 5px solid #ffcc00;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+        position: relative;
+    }
+    .comment-time {
+        color: white !important;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 12px;
+    }
+    .comment-game-img {
+        width: 100px;
+        height: 100px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+    .small {
+        font-size: 14px;
+    }
+</style>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    function toggleFavorite(button) {
-        const gameId = button.getAttribute('data-game-id');
-        console.log('Game ID:', gameId);
-        button.classList.toggle('text-warning');
-        button.classList.toggle('text-muted');
-    }
-</script>
 </body>
 </html>
