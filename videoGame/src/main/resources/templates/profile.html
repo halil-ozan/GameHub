@@ -83,7 +83,7 @@
     <div class="menu">
         <a th:href="@{/games}">Explore Games</a>
         <a href="#">Tier Lists</a>
-        <a href="#">Community Chat</a>
+        <a href="/chat">Community Chat</a>
     </div>
 
     <!-- Navbar Searchbar -->
@@ -186,21 +186,30 @@
     </div>
 </div>
 
-<!-- Comments -->
 <div class="container comment-section">
     <h3>User Comments</h3>
     <div th:each="comments : ${userComments}" class="comment-box p-3 mb-3 rounded position-relative">
         <small class="comment-time text-muted" th:text="${#temporals.format(comments.createdAt, 'HH:mm:ss (dd/MM/yyyy)')}"></small>
+
         <div class="d-flex align-items-center">
             <img th:src="${comments.game.backgroundImage}" alt="Game" class="comment-game-img">
+
             <div class="ms-3">
                 <span class="fw-bold text-warning" th:text="${comments.game.getName()}"></span>
                 <p class="fw-semibold text-light small mb-1" th:text="${comments.user.getUserName()}"></p>
                 <p class="mb-1 text-light" th:text="${comments.commentText}"></p>
             </div>
         </div>
+
+        <!-- Updated form positioning -->
+        <form th:action="@{profile/comment/remove}" method="post"
+              class="position-absolute top-50 translate-middle-y end-0 me-3">
+            <input type="hidden" name="id" th:value="${comments.id}">
+            <button type="submit" class="btn-delete">🗑</button>
+        </form>
     </div>
 </div>
+
 
 <style>
     .comment-section {

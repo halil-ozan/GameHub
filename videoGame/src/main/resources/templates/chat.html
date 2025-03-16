@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameHub | Home</title>
+    <title>GameHub | Community Chat</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -17,6 +17,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding-top: 80px;
         }
         .navbar {
             width: 100%;
@@ -69,15 +70,45 @@
             font-size: 36px;
             margin-bottom: 20px;
         }
-        p {
-            font-size: 18px;
+        .chat-container {
+            width: 80%;
+            height: 70vh;
+            background-color: #333;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-y: scroll;
             margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
         }
-        .btn-primary {
+        .chat-message {
+            margin-bottom: 10px;
+            text-align: left;
+            word-wrap: break-word;
+            max-width: 90%;
+        }
+        .chat-message span {
+            font-weight: bold;
+        }
+        .input-message {
+            width: 80%;
+            padding: 10px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .btn-send {
             background-color: #0066cc;
             border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
         }
-        .btn-primary:hover {
+        .btn-send:hover {
             background-color: #0052a3;
         }
     </style>
@@ -100,10 +131,53 @@
         <a th:href="@{/profile}" class="profile-icon"></a>
     </div>
 </div>
+
 <div>
-    <h1>Welcome to GameHub</h1>
-    <p>Coming Soon...</p>
+    <h1>Community Chat</h1>
+    <div class="chat-container" id="chat-container">
+        <!-- Mesajlar buraya gelecek -->
+    </div>
+
+    <input type="text" class="input-message" id="message" placeholder="Type a message..." />
+    <button class="btn-send" onclick="sendMessage()">Send</button>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script>
+    let stompClient = null;
+    let username = prompt("Enter your name:");
+
+    function connect() {
+        let socket = new SockJS('/chat');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/public', function (message) {
+                let content = JSON.parse(message.body);
+                document.getElementById("chat-container").innerHTML += `<div class="chat-message"><span>${content.sender}: </span>${content.content}</div>`;
+                // Scroll to the bottom of the chat container when a new message is received
+                document.getElementById("chat-container").scrollTop = document.getElementById("chat-container").scrollHeight;
+            });
+
+            // Send join message
+            stompClient.send("/app/chat.addUser", {}, JSON.stringify({ sender: username }));
+        });
+    }
+
+    function sendMessage() {
+        let messageContent = document.getElementById("message").value;
+        let message = {
+            sender: username,
+            content: messageContent,
+            type: "CHAT"
+        };
+        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(message));
+        document.getElementById("message").value = "";
+    }
+
+    connect();
+</script>
 </body>
 </html>
