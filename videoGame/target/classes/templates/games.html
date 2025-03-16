@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameHub | Explore Games</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px; /* Padding artırıldı */
+            background-color: #2c2c2c;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .menu a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        .search-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .dark-search {
+            background-color: #3a3a3a;
+            color: white;
+            border: 1px solid #555;
+        }
+
+        .dark-search::placeholder {
+            color: #bbb;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Aradaki boşluk için */
+            white-space: nowrap; /* Metnin kaymasını engeller */
+        }
+
+        .profile-icon {
+            width: 35px;
+            height: 35px;
+            background-color: white;
+            border-radius: 50%;
+        }
+
+        /* Game Cards */
+        .card {
+            background-color: #2c2c2c;
+            color: #ffffff;
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 0px 15px rgba(0, 170, 255, 0.5);
+        }
+        .card img {
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* Yıldız Butonu Stili */
+        .favorite-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: gray;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .favorite-btn.active {
+            color: gold; /* Favoriye eklenen oyunlar için */
+        }
+
+        /* Başlık Mesafesi */
+        .title-container {
+            margin-top: 120px;
+        }
+
+        .filter-container {
+            background-color: #2c2c2c;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 100px auto 30px;
+            max-width: 1200px;
+        }
+        .filter-title {
+            color: #0dcaf0;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        .genre-filter {
+            margin: 5px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .genre-filter.active {
+            background-color: #0dcaf0 !important;
+            color: #000 !important;
+            border-color: #0dcaf0;
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="logo">
+        <a th:href="@{/home}" style="color: white; font-size: 24px; font-weight: bold; text-decoration: none;">GameHub</a>
+    </div>
+    <div class="menu">
+        <a th:href="@{/games}">Explore Games</a>
+        <a href="#">Tier Lists</a>
+        <a href="/chat">Community Chat</a>
+    </div>
+
+    <!-- Navbar Searchbar -->
+    <div class="search-container">
+        <form th:action="@{/profile/search}" method="get" class="d-flex">
+            <div class="input-group">
+                <input type="search"
+                       name="username"
+                       class="form-control dark-search"
+                       placeholder="Search users"
+                       aria-label="Search"
+                       required>
+                <button class="btn btn-outline-success" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                    </svg>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="user-info">
+        <span th:text="${session.user.firstName}" style="margin-right: 10px;"></span>
+        <form action="#" th:action="@{/logout}" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-link logout-btn" style="color: #ff2514; text-decoration: none; font-weight: bold; border: solid">Logout</button>
+        </form>
+        <div class="profile-icon" style="width: 35px; height: 35px; background-color: white; border-radius: 50%;"></div>
+    </div>
+</div>
+
+<!-- Title -->
+<div class="container text-center title-container">
+    <h1 class="mb-4">Explore Games</h1>
+</div>
+
+<!-- Filtreleme Bölümü -->
+<div class="container filter-container">
+    <div class="row">
+        <div class="col-12">
+            <h4 class="filter-title">Filter by Genre</h4>
+            <div class="d-flex flex-wrap">
+                <button th:each="genre : ${allGenres}"
+                        type="button"
+                        class="btn btn-outline-info genre-filter"
+                        th:text="${genre}"
+                        th:data-genre="${genre}"
+                        onclick="toggleFilter(this)">
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Game Cards -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 mb-4 game-card"
+             th:each="game : ${games}"
+             th:attr="data-genres=${#strings.listJoin(game.genres.?[name != null].![name], ',')}">
+            <div class="card">
+                <a th:href="@{/game-detail/{gameId}(gameId=${game.id})}">
+                <img th:src="${game['background_image']}" class="card-img-top" alt="Game Image">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${game.get('name')}"></h5>
+                    <p class="card-text">⭐ GameId: <span th:text="${game.get('id')}"></span></p>
+                    <p class="card-text">⭐ Rating: <span th:text="${game.get('rating')}"></span></p>
+                    <p class="card-text">🎮 Genre:
+                        <span th:text="${#strings.listJoin(game.genres.?[name != null].![name], ', ')}">Unknown</span>
+                    </p>
+                    <!-- Add to Favorite Games Button -->
+                    <form th:action="@{/profile/add}" method="post">
+                        <input type="hidden" name="userId" th:value="${session.user.id}" />
+                        <input type="hidden" name="gameId" th:value="${game.id}" />
+                        <button class="btn btn-success">
+                            ➕ Add to Favorite Games
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Yıldız butonunu tıkladığında favori işlemi
+    function toggleFavorite(button) {
+        const gameId = button.getAttribute("data-game-id");
+
+        if (button.classList.contains("active")) {
+            button.classList.remove("active");
+            removeFavorite(gameId);
+        } else {
+            button.classList.add("active");
+            addFavorite(gameId);
+        }
+    }
+
+    // Favoriye ekleme isteği
+    function addFavorite(gameId) {
+        fetch('/add-favorite', {
+            method: 'POST',
+            body: JSON.stringify({ gameId: gameId }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
+
+    // Favoriden çıkarma isteği
+    function removeFavorite(gameId) {
+        fetch('/remove-favorite', {
+            method: 'POST',
+            body: JSON.stringify({ gameId: gameId }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
+
+    // Filtreleme fonksiyonları
+    let selectedGenres = [];
+
+    function toggleFilter(button) {
+        const genre = button.getAttribute('data-genre');
+        button.classList.toggle('active');
+
+        if(selectedGenres.includes(genre)) {
+            selectedGenres = selectedGenres.filter(g => g !== genre);
+        } else {
+            selectedGenres.push(genre);
+        }
+
+        filterGames();
+    }
+
+    function filterGames() {
+        document.querySelectorAll('.game-card').forEach(card => {
+            const cardGenres = card.getAttribute('data-genres').split(',');
+            const shouldShow = selectedGenres.length === 0 ||
+                selectedGenres.some(genre => cardGenres.includes(genre));
+
+            card.classList.toggle('hidden', !shouldShow);
+        });
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
