@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface UserCommentsDao {
     void addComment(UserComment userComment);
-    void removeUserComment(Long id, Integer userId, Long gameId);
+    void removeUserComment(Long commentId);
     List<UserComment> getUserCommentByGameId(Long gameId);
     List<UserComment> getUserCommentByUserId(Integer userId);
 }

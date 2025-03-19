@@ -7,6 +7,7 @@ import com.springboot.videogame.entity.usercomment.UserComment;
 import com.springboot.videogame.entity.userfavoritegame.UserFavoriteGame;
 import com.springboot.videogame.repository.GameRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +43,9 @@ public class UserCommentServiceImpl implements UserCommentService {
     }
 
     @Override
-    public void removeUserCommentByUserId(String userId) {
-
+    @Transactional
+    public void removeUserComment(Long commentId) {
+        userCommentsDao.removeUserComment(commentId);
     }
+
 }

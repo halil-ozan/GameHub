@@ -1,7 +1,10 @@
 package com.springboot.videogame.dao;
 
 import com.springboot.videogame.entity.usercomment.UserComment;
+import com.springboot.videogame.entity.userfavoritegame.UserFavoriteGame;
+import com.springboot.videogame.entity.userfavoritegame.UserFavoriteGameId;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
@@ -26,10 +29,13 @@ public class UserCommentsImpl implements UserCommentsDao {
 
     @Override
     @Transactional
-    public void removeUserComment(Long id, Integer userId, Long gameId) {
-        UserComment userComment = entityManager.find(UserComment.class, id);
-        entityManager.remove(entityManager.find(UserComment.class, userComment));
+    public void removeUserComment(Long Id) {
+        UserComment comment = entityManager.find(UserComment.class, Id);
+        if (comment != null) {
+            entityManager.remove(comment);
+        }
     }
+
 
     @Override
     public List<UserComment> getUserCommentByGameId(Long gameId) {

@@ -32,6 +32,9 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "profile_picture")
+    private String profilePicture = "/images/default-avatar.png";
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -56,11 +59,12 @@ public class User {
     }
 
     public User(String userName, String password, boolean enabled,
-                Collection<Role> roles) {
+                Collection<Role> roles, String profilePicture) {
         this.userName = userName;
         this.password = password;
         this.enabled = enabled;
         this.roles = roles;
+        this.profilePicture = profilePicture;
     }
 
     public Integer getId() {
@@ -146,5 +150,13 @@ public class User {
                 ", email='" + email + '\'' +
                 ", roles=" + roles +
                 '}';
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }

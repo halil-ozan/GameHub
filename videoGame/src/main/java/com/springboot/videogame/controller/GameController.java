@@ -66,20 +66,5 @@ public class GameController {
         return "game-detail";
     }
 
-
-    /*@GetMapping("/game-detail/comment/{gameId}")
-    public String getGameDetailComment(@PathVariable Long gameId, Model model) {
-        Game game = gameService.findById(gameId);
-
-        // Yorumları gameId'ye göre al
-        List<UserComment> gameComments = userCommentService.getUserCommentByGameId(gameId);
-
-        // Model'e verileri ekle
-        model.addAttribute("game", game);
-        model.addAttribute("comments", gameComments);
-
-        return "game-detail";
-    } */
-
 }
 
