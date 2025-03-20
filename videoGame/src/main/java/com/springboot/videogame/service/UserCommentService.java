@@ -8,6 +8,6 @@ import java.util.List;
 public interface UserCommentService {
     List<UserComment> getUserCommentByGameId(Long gameId);
     List<UserComment> getUserCommentByUserId(Integer userId);
-    void addUserComment(UserComment userComment);
+    void addUserComment(String userComment, Integer userId, Long gameId);
     void removeUserComment(Long commentId);
 }

@@ -36,7 +36,7 @@
     <div class="logo"><a th:href="@{/home}" style="color: white; font-size: 24px; font-weight: bold; text-decoration: none;">GameHub</a></div>
     <div class="menu">
         <a th:href="@{/games}">Explore Games</a>
-        <a href="#">Tier Lists</a>
+        <a href="https://tiermaker.com/">Tier Lists</a>
         <a href="/chat">Community Chat</a>
     </div>
     <div class="search-container">
@@ -74,11 +74,6 @@
                 <div class="card-body text-center">
                     <h5 class="card-title" th:text="${game.name}"></h5>
                     <p>Rating: <span th:text="${game.rating}"></span></p>
-                    <form th:action="@{/profile/remove}" method="post">
-                        <input type="hidden" name="userId" th:value="${user.id}" />
-                        <input type="hidden" name="gameId" th:value="${game.id}" />
-                        <button type="submit" class="btn btn-danger">Remove</button>
-                    </form>
                 </div>
             </div>
         </div>

@@ -10,7 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -65,6 +68,19 @@ public class GameController {
 
         return "game-detail";
     }
+
+    @PostMapping("/game-detail/{gameId}/comment/add")
+    public String addComment(@RequestParam("commentText") String comment,
+                             @RequestParam Integer userId,
+                             @RequestParam Long gameId,
+                             RedirectAttributes redirectAttributes) {
+
+        userCommentService.addUserComment(comment, userId, gameId);
+
+        redirectAttributes.addFlashAttribute("successMessage", "Comment added successfully!");
+        return "redirect:/game-detail/" + gameId; // Redirect to the game detail page
+    }
+
 
 }
 

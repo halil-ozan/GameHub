@@ -3,7 +3,9 @@ package com.springboot.videogame.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,26 +17,27 @@ public class Game {
     private String backgroundImage;
     private Double rating;
     private String genre;
-    private String description;
-    private String comment;
+    private int metacritic;
 
+    @ElementCollection
+    private List<Platform> platforms;
 
     @ManyToMany(mappedBy = "favoriteGames")
     private Set<User> users = new HashSet<>();
 
     // Getters, setters, and default constructor
-    public Game() {}
+    public Game() {
+    }
 
-    public Game(Long id, String name, String backgroundImage, Double rating, String genre, String description) {
+    public Game(Long id, String name, String backgroundImage, Double rating, String genre, Integer metacritic, List<Platform> platforms, String comment) {
         this.id = id;
         this.name = name;
         this.backgroundImage = backgroundImage;
         this.rating = rating;
         this.genre = genre;
-        this.description = description;
+        this.metacritic = metacritic;
+        this.platforms = platforms;
     }
-
-// Additional constructors if needed
 
     public Long getId() {
         return id;
@@ -84,11 +87,63 @@ public class Game {
         this.genre = genre;
     }
 
-    public String getDescription() {
-        return description;
+    public int getMetacritic() {
+        return metacritic;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setMetacritic(int metacritic) {
+        this.metacritic = metacritic;
+    }
+
+    public List<Platform> getPlatforms() {
+        return platforms;
+    }
+
+    public void setPlatforms(List<Platform> platforms) {
+        this.platforms = platforms;
+    }
+
+    @Embeddable
+    public static class Platform {
+        public PlatformDetails getPlatform() {
+            return platform;
+        }
+
+        public void setPlatform(PlatformDetails platform) {
+            this.platform = platform;
+        }
+
+        private PlatformDetails platform;
+
+        @Embeddable
+        public static class PlatformDetails {
+            private int id;
+            private String name;
+            private String slug;
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getSlug() {
+                return slug;
+            }
+
+            public void setSlug(String slug) {
+                this.slug = slug;
+            }
+        }
     }
 }

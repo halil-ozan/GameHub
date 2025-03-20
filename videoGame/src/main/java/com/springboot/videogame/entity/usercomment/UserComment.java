@@ -5,8 +5,9 @@ import com.springboot.videogame.entity.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
-    @Entity
+@Entity
     @Table(name = "user_comments")
     public class UserComment {
 
@@ -29,6 +30,7 @@ import java.time.LocalDateTime;
         private LocalDateTime createdAt = LocalDateTime.now();
 
         public UserComment() {
+
         }
 
         public UserComment(User user, Game game, String commentText) {
@@ -37,7 +39,9 @@ import java.time.LocalDateTime;
             this.commentText = commentText;
         }
 
-        public Long getId() {
+
+
+    public Long getId() {
             return id;
         }
 

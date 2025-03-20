@@ -19,14 +19,18 @@
         .game-container { margin-top: 100px; display: flex; flex-direction: column; align-items: center; }
         .game-image { width: 80%; max-width: 800px; border-radius: 12px; box-shadow: 0px 8px 15px rgba(255, 255, 255, 0.1); transition: transform 0.3s ease; }
         .game-image:hover { transform: scale(1.05); }
-        .game-details { width: 80%; margin-top: 30px; padding: 25px; background-color: #2c2c2c; border-radius: 12px; box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1); color: #ffffff; }
+        .game-details { width: 80%; max-width: 800px; margin-top: 30px; padding: 25px; background-color: #2c2c2c; border-radius: 12px; box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1); color: #ffffff; }
         .game-details h1 { font-size: 32px; margin-bottom: 15px; }
         .game-details p { font-size: 18px; margin: 10px 0; }
-        .comment-section { width: 80%; margin-top: 50px; padding: 20px; background-color: #2c2c2c; border-radius: 12px; box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1); }
-        .comment-section h3 { margin-bottom: 20px; color: #ffcc00; }
-        .comment { background-color: #3a3a3a; padding: 15px; margin-bottom: 15px; border-radius: 8px; display: flex; flex-direction: column; }
+        .comment-section { width: 80%; max-width: 800px; margin: 50px auto; padding: 20px; background-color: #2c2c2c; border-radius: 12px; box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1); }
+        .comment-section h3 { margin-bottom: 20px; color: #ffcc00; text-align: center; }
+        .comment { background-color: #3a3a3a; padding: 15px; margin-bottom: 15px; border-radius: 8px; width: 100%; box-sizing: border-box; }
         .comment-user { font-weight: bold; color: #ffcc00; margin-bottom: 5px; }
         .comment-text { font-size: 16px; margin-top: 5px; }
+        .comment-form { width: 100%; max-width: 600px; margin: 0 auto; }
+        .comment-form textarea { width: 100%; background-color: #3a3a3a; color: white; border: 1px solid #555; border-radius: 8px; padding: 10px; box-sizing: border-box; }
+        .comment-form button { margin-top: 10px; background-color: #ffcc00; color: #1a1a1a; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; }
+        .comment-form button:hover { background-color: #e6b800; }
     </style>
 </head>
 <body>
@@ -34,7 +38,7 @@
     <div class="logo"><a th:href="@{/home}" style="color: white; font-size: 24px; font-weight: bold; text-decoration: none;">GameHub</a></div>
     <div class="menu">
         <a th:href="@{/games}">Explore Games</a>
-        <a href="#">Tier Lists</a>
+        <a href="https://tiermaker.com/">Tier Lists</a>
         <a href="/chat">Community Chat</a>
     </div>
     <div class="user-info">
@@ -42,7 +46,7 @@
         <form action="#" th:action="@{/logout}" method="POST" style="display: inline;">
             <button type="submit" class="btn btn-link logout-btn" style="color: #ff2514; text-decoration: none; font-weight: bold; border: solid">Logout</button>
         </form>
-        <div class="profile-icon" style="width: 35px; height: 35px; background-color: white; border-radius: 50%;"></div>
+        <a th:href="@{/profile}" class="profile-icon"></a>
     </div>
 </div>
 <div class="game-container">
@@ -50,11 +54,20 @@
     <div class="game-details">
         <h1 th:text="${game.name}">Game Name</h1>
         <p><strong>Genre:</strong> <span th:text="${game.genre}">Game Genre</span></p>
-        <p><strong>Description:</strong> <span th:text="${game.description}">Game Description</span></p>
     </div>
 </div>
 <div class="comment-section">
     <h3>User Comments</h3>
+    <div class="comment-form">
+        <!-- Add Comment Form -->
+        <h3>Add a Comment</h3>
+        <form th:action="@{/game-detail/{gameId}/comment/add(gameId=${game.id})}" method="POST">
+            <textarea name="commentText" class="form-control" placeholder="Write your comment here..." rows="3"></textarea>
+            <input type="hidden" name="userId" th:value="${session.user.id}">
+            <input type="hidden" name="gameId" th:value="${game.id}">
+            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+        </form>
+    </div>
     <div th:each="comments : ${userComments}" class="comment">
         <p class="comment-user" th:text="${comments.user.userName}">Username</p>
         <p class="comment-text" th:text="${comments.commentText}">Comment text</p>
