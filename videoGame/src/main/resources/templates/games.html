@@ -22,8 +22,8 @@
         .card-title { font-size: 20px; font-weight: bold; }
         .favorite-btn { background: none; border: none; font-size: 24px; color: gray; cursor: pointer; transition: color 0.3s ease; }
         .favorite-btn.active { color: gold; }
-        .title-container { margin-top: 120px; }
-        .filter-container { background-color: #2c2c2c; padding: 20px; border-radius: 12px; margin: 100px auto 30px; max-width: 1200px; }
+        .title-container { margin-top: 100px; }
+        .filter-container { background-color: #2c2c2c; padding: 20px; border-radius: 12px; margin: 50px auto 30px; max-width: 1200px; }
         .filter-title { color: #0dcaf0; margin-bottom: 15px; font-size: 1.5rem; }
         .genre-filter { margin: 5px; border-radius: 20px; transition: all 0.3s ease; }
         .genre-filter.active { background-color: #0dcaf0 !important; color: #000 !important; border-color: #0dcaf0; }
@@ -74,7 +74,6 @@
                 <a th:href="@{/game-detail/{gameId}(gameId=${game.id})}"><img th:src="${game['background_image']}" class="card-img-top" alt="Game Image"></a>
                 <div class="card-body">
                     <h5 class="card-title" th:text="${game.get('name')}"></h5>
-                    <p class="card-text">⭐ GameId: <span th:text="${game.get('id')}"></span></p>
                     <p class="card-text">⭐ Rating: <span th:text="${game.get('rating')}"></span></p>
                     <p class="card-text">🎮 Genre: <span th:text="${#strings.listJoin(game.genres.?[name != null].![name], ', ')}">Unknown</span></p>
                     <form th:action="@{/profile/add}" method="post">

@@ -18,6 +18,8 @@ public class Game {
     private Double rating;
     private String genre;
     private int metacritic;
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
     @ElementCollection
     private List<Platform> platforms;
@@ -29,7 +31,7 @@ public class Game {
     public Game() {
     }
 
-    public Game(Long id, String name, String backgroundImage, Double rating, String genre, Integer metacritic, List<Platform> platforms, String comment) {
+    public Game(Long id, String name, String backgroundImage, Double rating, String genre, Integer metacritic, List<Platform> platforms, String comment, String description) {
         this.id = id;
         this.name = name;
         this.backgroundImage = backgroundImage;
@@ -37,6 +39,15 @@ public class Game {
         this.genre = genre;
         this.metacritic = metacritic;
         this.platforms = platforms;
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Long getId() {
